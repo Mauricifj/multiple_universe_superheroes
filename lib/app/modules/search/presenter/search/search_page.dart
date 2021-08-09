@@ -27,66 +27,74 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         title: Text('Super Heroes'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0),
-            child: TextField(
-              controller: _controller,
-              onChanged: bloc.add,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Search...",
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    _controller.clear();
-                    bloc.add("");
-                  },
-                  icon: Icon(Icons.clear),
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0),
+                child: TextField(
+                  controller: _controller,
+                  onChanged: bloc.add,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Search...",
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        _controller.clear();
+                        bloc.add("");
+                      },
+                      icon: Icon(Icons.clear),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: StreamBuilder(
-              stream: bloc.stream,
-              builder: (context, snapshot) {
-                final state = bloc.state;
+              Expanded(
+                child: StreamBuilder(
+                  stream: bloc.stream,
+                  builder: (context, snapshot) {
+                    final state = bloc.state;
 
-                if (state is SearchStart) {
-                  return Center(child: Text("Type something to start the search"));
-                }
+                    if (state is SearchStart) {
+                      return Center(child: Text("Type something to start the search"));
+                    }
 
-                if (state is SearchError) {
-                  return Center(child: Text("Something went wrong"));
-                }
+                    if (state is SearchError) {
+                      return Center(child: Text("Something went wrong"));
+                    }
 
-                if (state is SearchLoading) {
-                  return Center(child: CircularProgressIndicator());
-                }
+                    if (state is SearchLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
 
-                final list = (state as SearchSuccess).list;
+                    final list = (state as SearchSuccess).list;
 
-                if (list.isEmpty) {
-                  return Center(child: Text("Nothing found, try something different"));
-                }
+                    if (list.isEmpty) {
+                      return Center(child: Text("Nothing found, try something different"));
+                    }
 
-                return ListView.separated(
-                  separatorBuilder: (BuildContext context, int index) => Divider(),
-                  itemCount: list.length,
-                  itemBuilder: (_, id) {
-                    final item = list[id];
-                    return ListTile(
-                      title: Text(item.codeName),
-                      subtitle: Text(item.name),
-                      leading: CircleAvatar(backgroundImage: NetworkImage(item.thumbnail)),
+                    return ListView.separated(
+                      separatorBuilder: (BuildContext context, int index) => Divider(),
+                      itemCount: list.length,
+                      itemBuilder: (_, id) {
+                        final superHero = list[id];
+                        return InkWell(
+                          onTap: () => Modular.to.pushNamed('/details/$id', arguments: superHero),
+                          child: ListTile(
+                            title: Text(superHero.codeName),
+                            subtitle: Text(superHero.name),
+                            leading: CircleAvatar(backgroundImage: NetworkImage(superHero.thumbnail)),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
