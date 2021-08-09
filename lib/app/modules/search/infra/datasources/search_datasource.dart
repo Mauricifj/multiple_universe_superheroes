@@ -1,5 +1,5 @@
-import 'package:multiple_universe_superheroes/app/modules/search/domain/entities/super_hero.dart';
+import 'package:multiple_universe_superheroes/app/modules/search/infra/models/super_hero_model.dart';
 
 abstract class SearchDatasource {
-  Future<List<SuperHero>?> searchByText(String searchText);
+  Future<List<SuperHeroModel>?> searchByText(String searchText);
 }
