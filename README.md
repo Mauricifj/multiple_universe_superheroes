@@ -1,6 +1,6 @@
-# multiple_universe_superheroes
+# Multiple Universe Super Heroes App
 
-Multiple universes superheroes app uses [superhero api](https://github.com/akabab/superhero-api) to show information about super heroes
+Multiple Universe Super Heroes App uses [superhero api](https://github.com/akabab/superhero-api) to show information about super heroes
 
 ## How to use
 
