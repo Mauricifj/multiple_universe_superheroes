@@ -20,13 +20,4 @@ main() {
     expect(result.isRight(), true);
     expect(result.fold((l) => l, (r) => r), isA<List<SuperHero>>());
   });
-
-  test('Should return InvalidSearchText when text is invalid', () async {
-    when(() => repository.getHeroes(any())).thenAnswer((_) async => Right(<SuperHero>[]));
-
-    final result = await usecase("");
-
-    expect(result.isLeft(), true);
-    expect(result.fold(id, id), isA<InvalidSearchText>());
-  });
 }

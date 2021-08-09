@@ -25,17 +25,4 @@ main() {
 
     bloc.add("iron man");
   });
-
-  test('Should return SearchError when text is invalid', () {
-    when(() => usecase.call(any())).thenAnswer((_) async => Left(InvalidSearchText()));
-
-    expect(
-        bloc.stream,
-        emitsInOrder([
-          isA<SearchLoading>(),
-          isA<SearchError>(),
-        ]));
-
-    bloc.add("");
-  });
 }
