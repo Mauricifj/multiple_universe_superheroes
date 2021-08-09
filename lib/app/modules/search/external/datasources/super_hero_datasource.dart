@@ -5,12 +5,13 @@ import 'package:multiple_universe_superheroes/app/modules/search/infra/models/su
 
 class SuperHeroDatasource implements SearchDatasource {
   final Dio dio;
+  final String baseUrl = "https://akabab.github.io/superhero-api/api";
 
   SuperHeroDatasource(this.dio);
 
   @override
   Future<List<SuperHeroModel>> searchByText(String textSearch) async {
-    final url = "https://akabab.github.io/superhero-api/api/all.json";
+    final url = "$baseUrl/all.json";
     final response = await dio.get(url);
 
     if (response.statusCode == 200) {
@@ -34,5 +35,17 @@ class SuperHeroDatasource implements SearchDatasource {
   bool _searchByName(item, String textSearch) {
     var name = item['biography']['fullName'].toLowerCase();
     return name.contains(textSearch.toLowerCase());
+  }
+
+  @override
+  Future<SuperHeroModel?> searchById(String id) async {
+    final url = "$baseUrl/$id.json";
+    final response = await dio.get(url);
+
+    if (response.statusCode == 200) {
+      return SuperHeroModel.fromMap(response.data);
+    } else {
+      throw DatasourceResultNull();
+    }
   }
 }
