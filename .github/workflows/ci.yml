@@ -1,18 +1,30 @@
-on: [push, pull_request]
-name: CI
+name: Continuous Integration Workflow
+
+on: [push]
 
 jobs:
   flutter_test:
     name: Run flutter test and analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install and set Java version
+        uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - uses: subosito/flutter-action@v1
+
+      - name: Install and set Flutter channel
+        uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
+
+      - name: Restore packages
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
