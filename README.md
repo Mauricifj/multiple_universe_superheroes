@@ -30,5 +30,4 @@ $ flutter run
 2. **Clone** it
 3. **Commit** your changes
 4. **Push** to your _fork_
-5. Create a **Pull Request**4. **Push** to your _fork_
-6. Create a **Pull Request**
+5. Create a **Pull Request**
