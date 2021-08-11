@@ -1,4 +1,4 @@
-name: Continuous Integration Workflow
+name: ci
 
 on: [push]
 
@@ -27,4 +27,9 @@ jobs:
         run: flutter analyze
 
       - name: Run tests
-        run: flutter test
+        run: flutter test --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
